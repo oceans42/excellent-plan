@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-container>
-        <el-aside width="250px"
-                  class="aside">
+    <el-row :gutter="10">
+      <el-col :xs="24"
+              :sm="6"
+              :md="6"
+              :lg="6"
+              :xl="6">
+        <div class="grid-content bg-purple aside">
           <div>
             <p>1.在清醒时写下三个锦囊<br>（只能写3个哦）</p>
             <p>2.在迷惘时打开看看<br>（用同一个浏览器）</p>
           </div>
 
           <p class="footer">备注：这是本人做的第一个小作品，正在摸索中，求轻拍~主要是给自己用。有吐槽？欢迎发这个邮箱：sparks_42@163.com</p>
-        </el-aside>
-        <el-main>
+        </div>
+      </el-col>
+      <el-col :xs="24"
+              :sm="18"
+              :md="18"
+              :lg="18"
+              :xl="18">
+        <div class="grid-content bg-purple-light">
           <h1> <a href="#"> 锦囊妙计 </a> </h1>
           <img src="./assets/bag1.png"
                class="bag"
@@ -22,9 +31,9 @@
           <img src="./assets/bag3.png"
                class="bag"
                @click="open(3)">
-        </el-main>
-      </el-container>
-    </el-container>
+        </div>
+      </el-col>
+    </el-row>
     <!-- <ToDo msg="Welcome to Your Vue.js App" /> -->
   </div>
 </template>
@@ -67,7 +76,7 @@ export default {
         if (this.todos[i].id === num) {
           this.$alert(this.todos[i].title, `第${this.todos[i].id}个锦囊`, {
             confirmButtonText: "确定",
-            closeOnClickModal:'true'
+            closeOnClickModal: "true"
           });
           return;
         }
@@ -164,5 +173,4 @@ h1:after {
 .footer{
   color: #666
 }
-
 </style>
