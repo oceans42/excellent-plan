@@ -22,15 +22,11 @@
               :xl="18">
         <div class="grid-content bg-purple-light">
           <h1> <a href="#"> 锦囊妙计 </a> </h1>
-          <img src="./assets/bag1.png"
+          <img v-for="bag in bags"
+               :key='bag.id'
+               :src="bag.src"
                class="bag"
-               @click="open(1)">
-          <img src="./assets/bag2.png"
-               class="bag"
-               @click="open(2)">
-          <img src="./assets/bag3.png"
-               class="bag"
-               @click="open(3)">
+               @click="open(bag.id)">
         </div>
       </el-col>
     </el-row>
@@ -56,7 +52,21 @@ export default {
   name: "app",
   data: function() {
     return {
-      todos: todoStorage.fetch()
+      todos: todoStorage.fetch(),
+      bags: [
+        {
+          src: require("./assets/bag1.png"),
+          id: 1
+        },
+        {
+          src: require("./assets/bag2.png"),
+          id: 2
+        },
+        {
+          src: require("./assets/bag3.png"),
+          id: 3
+        }
+      ]
     };
   },
   components: {
@@ -152,7 +162,6 @@ h1 a {
     text-decoration: none;
     color: #666;
     position: absolute;
-
     -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));
 }
 
