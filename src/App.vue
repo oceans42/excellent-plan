@@ -12,7 +12,7 @@
             <p>2.在迷惘时打开看看<br>（用同一个浏览器）</p>
           </div>
 
-          <p class="footer">备注：这是本人做的第一个小作品，正在摸索中，求轻拍~主要是给自己用。有吐槽？欢迎发这个邮箱：sparks_42@163.com</p>
+          <p class="footer">备注：这是本人做的第一个小作品，正在摸索中，主要是给自己用。有吐槽？欢迎发这个邮箱：sparks_42@163.com</p>
         </div>
       </el-col>
       <el-col :xs="24"
@@ -26,11 +26,16 @@
                :key='bag.id'
                :src="bag.src"
                class="bag"
-               @click="open(bag.id)">
+               @click="open(bag)">
         </div>
       </el-col>
     </el-row>
-    <!-- <ToDo msg="Welcome to Your Vue.js App" /> -->
+    <BagModal v-if="show"
+              :visible="true"
+              @hide="hide"
+              @removeBag="removeBag"
+              :bag="bag">
+    </BagModal>
   </div>
 </template>
 
@@ -46,13 +51,14 @@ var todoStorage = {
   }
 };
 
-import ToDo from "./components/ToDo.vue";
+import BagModal from "./components/BagModal.vue";
 
 export default {
   name: "app",
   data: function() {
     return {
       todos: todoStorage.fetch(),
+      show: false,
       bags: [
         {
           src: require("./assets/bag1.png"),
@@ -66,11 +72,12 @@ export default {
           src: require("./assets/bag3.png"),
           id: 3
         }
-      ]
+      ],
+      bag: null
     };
   },
   components: {
-    ToDo
+    BagModal
   },
   watch: {
     todos: {
@@ -81,26 +88,27 @@ export default {
     }
   },
   methods: {
-    open(num) {
+    open(bag) {
       for (let i = 0; i < this.todos.length; i++) {
-        if (this.todos[i].id === num) {
-          this.$alert(this.todos[i].title, `第${this.todos[i].id}个锦囊`, {
-            confirmButtonText: "确定",
-            closeOnClickModal: "true"
-          });
+        if (this.todos[i].id === bag.id) {
+          this.show = true;
+          this.bag = this.todos[i];
           return;
         }
       }
       this.$prompt("输入妙计", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      }).then(({ value }) => {
-        this.addTodo(value, num);
-        this.$message({
-          type: "success",
-          message: "你的妙计已存入"
-        });
-      });
+        cancelButtonText: "取消",
+        inputType: "textarea"
+      })
+        .then(({ value }) => {
+          this.addTodo(value, bag.id);
+          this.$message({
+            type: "success",
+            message: "你的妙计已存入"
+          });
+        })
+        .catch(() => {});
     },
     addTodo: function(text, num) {
       let value = text && text.trim();
@@ -111,6 +119,13 @@ export default {
         id: num,
         title: value
       });
+    },
+    removeBag(bag) {
+      this.todos.splice(this.todos.indexOf(bag), 1);
+      this.open(bag);
+    },
+    hide() {
+      this.show = false;
     }
   }
 };
@@ -133,6 +148,7 @@ export default {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
+  cursor: pointer;
 }
 @keyframes shake {
   10%, 90% {
