@@ -102,7 +102,11 @@ export default {
         inputType: "textarea"
       })
         .then(({ value }) => {
-          this.addTodo(value, bag.id);
+          let v = value && value.trim();
+          if (!v) {
+            return;
+          }
+          this.addTodo(v, bag.id);
           this.$message({
             type: "success",
             message: "你的妙计已存入"
