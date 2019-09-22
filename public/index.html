@@ -23,7 +23,20 @@
       continue.</strong>
   </noscript>
   <div id="app"></div>
+  <section class="message" style="color:#fff">
+    <h2>留言区</h2>
+    <ol id="messageList" style="list-style: none;padding: 0"></ol>
+    <form id="postMessageForm">
+      <label for="">姓名</label>
+      <input type="text" name="name" autocomplete="off">
+      <label for="">内容</label>
+      <input type="text" name="content" autocomplete="off">
+      <input type="submit" value="提交">
+    </form>
+  </section>
   <!-- built files will be auto injected -->
+  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.15.0/dist/av-min.js"></script>
+  <script src="./message.js"></script>
 </body>
 
 </html>
