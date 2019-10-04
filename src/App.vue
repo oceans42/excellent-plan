@@ -7,12 +7,7 @@
               :lg="6"
               :xl="6">
         <div class="grid-content bg-purple aside">
-          <div>
-            <p>1.在清醒时写下三个锦囊<br>（只能写3个哦）</p>
-            <p>2.在迷惘时打开看看<br>（用同一个浏览器）</p>
-          </div>
-
-          <p class="footer">备注：这是本人做的第一个小作品，正在摸索中，主要是给自己用。</p>
+          <pre id="code"></pre>
         </div>
       </el-col>
       <el-col :xs="24"
@@ -73,7 +68,14 @@ export default {
           id: 3
         }
       ],
-      bag: null
+      bag: null,
+      leftText: `
+1.在清醒时写下三个锦囊（只能写3个哦）
+2.在迷惘时打开看看（用同一个浏览器）
+
+备注：这是本人做的第一个小作品，
+     正在摸索中，主要是给自己用。😄
+      `
     };
   },
   components: {
@@ -86,6 +88,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    this.writeCss(this.leftText);
   },
   methods: {
     open(bag) {
@@ -130,6 +135,17 @@ export default {
     },
     hide() {
       this.show = false;
+    },
+    writeCss(code) {
+      let domCode = document.querySelector("#code");
+      let n = 0;
+      let id = setInterval(() => {
+        n += 1;
+        domCode.innerHTML = code.substring(0, n);
+        if (n >= code.length) {
+          window.clearInterval(id);
+        }
+      }, 70);
     }
   }
 };
@@ -198,8 +214,10 @@ h1:after {
   flex-direction:column;
   justify-content: space-between;
 }
-
-.footer{
-  color: #666
+pre{
+  font-size: 15px;
+  font-family: "微软雅黑";
+  margin: 0;
+  line-height: 1.5em;
 }
 </style>
